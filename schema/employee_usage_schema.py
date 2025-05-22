@@ -7,9 +7,9 @@ class EmployeeUsageBase(BaseModel):
     date: Optional[date] = None
     total_active_hours: Optional[float] = None
     darkmode_on: Optional[float] = None
-    battery_usage: Optional[float] = None
+    battery_usage: Optional[int] = None
     on_charge_usage: Optional[float] = None
-    energy_usage: Optional[float] = None
+    energy_used_kwh: Optional[float] = None
     carbon_emission: Optional[float] = None
 
 class EmployeeUsageCreate(EmployeeUsageBase):

@@ -39,3 +39,30 @@ def delete_employee_usage(db: Session, emission_id: int) -> bool:
     db.delete(db_usage)
     db.commit()
     return True
+
+
+def get_usage_by_employee(db: Session, employee_id: int):
+    return db.query(EmployeeUsage).filter(EmployeeUsage.employee_id == employee_id).all()
+
+def calculate_energy(duration: int, dark_mode: bool) -> float:
+    # Example: Base consumption is 0.05 kWh per 10 mins
+    base_rate = 0.005
+    if dark_mode:
+        base_rate *= 0.7  # 30% savings in dark mode
+    return round(duration * base_rate, 4)
+
+def create_usage_entry(db: Session, usage: EmployeeUsageCreate):
+    energy = calculate_energy(usage.battery_usage, usage.dark_mode)
+    db_usage = EmployeeUsage(
+        employee_id=usage.employee_id,
+        battery_usage=usage.battery_usage,
+        dark_mode=usage.dark_mode,
+        energy_used_kwh=energy
+    )
+    db.add(db_usage)
+    db.commit()
+    db.refresh(db_usage)
+    return db_usage
+
+def get_employee_usages(db: Session, employee_id: int):
+    return db.query(EmployeeUsage).filter(EmployeeUsage.employee_id == employee_id).all()

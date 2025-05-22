@@ -9,9 +9,9 @@ class EmployeeUsage(Base):
     employee_id = Column(Integer, ForeignKey("employee.employee_id"))
     date = Column(Date, nullable=False)
     total_active_hours = Column(Integer)
-    battery_usage = Column(Float)
+    battery_usage = Column(Integer)
     dark_mode = Column(Float)
-    on_charge_usage = Column(Float)
+    energy_used_kwh = Column(Float)
     emission_saved = Column(Float)
 
     employee = relationship("Employee")

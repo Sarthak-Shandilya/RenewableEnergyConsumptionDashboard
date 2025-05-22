@@ -4,9 +4,8 @@ from typing import Optional
 
 class EmployeeUsageBase(BaseModel):
     employee_id: Optional[int] = None
-    date: Optional[date] = None
     total_active_hours: Optional[float] = None
-    darkmode_on: Optional[float] = None
+    dark_mode: Optional[bool] = None
     battery_usage: Optional[int] = None
     on_charge_usage: Optional[float] = None
     energy_used_kwh: Optional[float] = None

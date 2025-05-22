@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from typing import List, Optional
-
+from datetime import date
 from models.employee_usage_model import EmployeeUsage
 from schema.employee_usage_schema import EmployeeUsageCreate, EmployeeUsageUpdate
 
@@ -53,6 +53,7 @@ def calculate_energy(duration: int, dark_mode: bool) -> float:
 
 def create_usage_entry(db: Session, usage: EmployeeUsageCreate):
     energy = calculate_energy(usage.battery_usage, usage.dark_mode)
+    # usage_date = usage.date or date.today()
     db_usage = EmployeeUsage(
         employee_id=usage.employee_id,
         battery_usage=usage.battery_usage,

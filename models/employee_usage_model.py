@@ -7,7 +7,6 @@ class EmployeeUsage(Base):
 
     emission_id = Column(Integer, primary_key=True, autoincrement=True)
     employee_id = Column(Integer, ForeignKey("employee.employee_id"))
-    date = Column(Date, nullable=False)
     total_active_hours = Column(Integer)
     battery_usage = Column(Integer)
     dark_mode = Column(Float)

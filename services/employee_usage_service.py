@@ -37,10 +37,12 @@ class EmployeeUsageService:
         saving = base_emission * self.DARK_MODE_SAVING_PERCENTAGE * dark_mode  # Save only if dark mode enabled
         return base_emission - saving
 
-    def log_employee_usage(self, db: Session, usage: EmployeeUsageCreate):
+    @staticmethod
+    def log_employee_usage(db: Session, usage: EmployeeUsageCreate):
         return create_usage_entry(db, usage)
 
-    def fetch_employee_usages(self, db: Session, employee_id: int):
+    @staticmethod
+    def fetch_employee_usages(db: Session, employee_id: int):
         return get_employee_usages(db, employee_id)
 
 

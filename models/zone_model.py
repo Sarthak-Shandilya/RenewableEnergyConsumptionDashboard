@@ -18,6 +18,7 @@ class Zone(Base):
     current_occupancy = Column(Integer)
     appliance_usage_mode = Column(Boolean)
     zone_type = Column(Enum(ZoneType))
+    active = Column(Boolean)
 
     # Optional: Reverse relation for Employees in this Zone
     employees = relationship("Employee", back_populates="zone")

@@ -13,6 +13,7 @@ class ZoneBase(BaseModel):
     current_occupancy: Optional[int] = None
     appliance_usage_mode: Optional[bool] = None
     zone_type: Optional[ZoneType] = None
+    active: Optional[bool] = None
 
 class ZoneCreate(ZoneBase):
     pass

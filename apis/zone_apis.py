@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 
+from repositories.zone_usae_db_service import analyze_zone_proximity_and_optimize
 from utils.database import get_db
 from schema.zone_schema import ZoneCreate, ZoneInDB
 from services.zone_service import ZoneService
@@ -36,3 +37,17 @@ def delete_zone_by_id(zone_id: int, db: Session = Depends(get_db)):
     deleted = ZoneService.delete_zone_service(db, zone_id)
     if not deleted:
         raise HTTPException(status_code=404, detail="Zone not found")
+
+@router.post("/optimize_zones")
+def optimize_zones(db: Session = Depends(get_db)):
+    analysis = analyze_zone_proximity_and_optimize(db)
+    return {"message": "Zone occupancy and appliance optimization done.", "analysis": f"{analysis}"}
+
+@router.get("/underutilized-zones")
+def get_suggested_relocation_zones(db: Session = Depends(get_db)):
+    zones = get_all_zones(db)
+    suggestions = [
+        {"zone_id": zone.zone_id, "occupancy": zone.current_occupancy}
+        for zone in zones if zone.current_occupancy and zone.current_occupancy < (zone.max_occupancy or 4)
+    ]
+    return suggestions

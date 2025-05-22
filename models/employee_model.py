@@ -10,4 +10,5 @@ class Employee(Base):
     name = Column(String, nullable=False)
     zone_id = Column(Integer, ForeignKey("zone.zone_id"), nullable=True)
     brightness_mode_laptop = Column(Boolean, nullable=True)
+    on_charge = Column(Boolean, nullable=True)
     zone = relationship("Zone")

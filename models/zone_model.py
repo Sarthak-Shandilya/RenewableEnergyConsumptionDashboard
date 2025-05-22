@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Enum
 from sqlalchemy.orm import relationship
-from utils.base import Base
+from utils.database import Base
 import enum
 
 class ZoneType(enum.Enum):

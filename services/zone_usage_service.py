@@ -45,7 +45,7 @@ class ZoneUsageService:
     def get_zone_usage_by_id(self, zone_emission_id: int) -> ZoneUsage | None:
         return self.db.query(ZoneUsage).filter(ZoneUsage.zone_emission_id == zone_emission_id).first()
 
-
+    
 
 #########################
 from sqlalchemy import create_engine

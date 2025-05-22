@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from utils.database import Base, engine
 import apis.employee_apis as employee   # Import your router
+import apis.zone_apis as zone
 from models.employee_model import Employee
 from models.zone_model import Zone
 from models.points_model import Points
@@ -19,3 +20,4 @@ app = FastAPI(
 
 # Include routers
 app.include_router(employee.router)
+app.include_router(zone.router)

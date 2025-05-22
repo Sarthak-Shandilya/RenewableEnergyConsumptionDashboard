@@ -11,7 +11,7 @@ class ZoneBase(BaseModel):
     floor_number: Optional[int] = None
     max_occupancy: Optional[int] = None
     current_occupancy: Optional[int] = None
-    applicane_usage_mode: Optional[bool] = None
+    appliance_usage_mode: Optional[bool] = None
     zone_type: Optional[ZoneType] = None
 
 class ZoneCreate(ZoneBase):

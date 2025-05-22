@@ -1,49 +1,34 @@
+# services/zone_service.py
 from sqlalchemy.orm import Session
-from models.zone_model import Zone, ZoneType  # Assuming your Zone model is in models/zone.py
+from typing import List, Optional
 
+from schema.zone_schema import ZoneCreate, ZoneInDB
+from repositories.zone_db_service import (
+    create_zone,
+    get_zone_by_id,
+    get_all_zones,
+    update_zone,
+    delete_zone,
+)
 
 class ZoneService:
-    def __init__(self, db_session: Session):
-        self.db = db_session
 
-    def add_zone(self, floor_number: int, max_occupancy: int, current_occupancy: int, 
-                 appliance_usage_mode: bool, zone_type: ZoneType) -> Zone:
-        new_zone = Zone(
-            floor_number=floor_number,
-            max_occupancy=max_occupancy,
-            current_occupancy=current_occupancy,
-            appliance_usage_mode=appliance_usage_mode,
-            zone_type=zone_type
-        )
-        self.db.add(new_zone)
-        self.db.commit()
-        self.db.refresh(new_zone)
-        return new_zone
+    @staticmethod
+    def create_zone_service(db: Session, zone: ZoneCreate) -> ZoneInDB:
+        return create_zone(db, zone)
 
-    def delete_zone(self, zone_id: int) -> bool:
-        zone = self.db.query(Zone).filter(Zone.zone_id == zone_id).first()
-        if zone:
-            self.db.delete(zone)
-            self.db.commit()
-            return True
-        return False
+    @staticmethod
+    def get_zone_service(db: Session, zone_id: int) -> Optional[ZoneInDB]:
+        return get_zone_by_id(db, zone_id)
 
-    def update_zone(self, zone_id: int, **kwargs) -> Zone | None:
-        zone = self.db.query(Zone).filter(Zone.zone_id == zone_id).first()
-        if not zone:
-            return None
+    @staticmethod
+    def get_all_zones_service(db: Session, skip: int = 0, limit: int = 100) -> List[ZoneInDB]:
+        return get_all_zones(db, skip, limit)
 
-        for key, value in kwargs.items():
-            if hasattr(zone, key):
-                setattr(zone, key, value)
+    @staticmethod
+    def update_zone_service(db: Session, zone_id: int, zone: ZoneCreate) -> Optional[ZoneInDB]:
+        return update_zone(db, zone_id, zone)
 
-        self.db.commit()
-        self.db.refresh(zone)
-        return zone
-
-
-    def get_zone_by_id(self, zone_id: int) -> Zone | None:
-        return self.db.query(Zone).filter(Zone.zone_id == zone_id).first()
-
-    def get_all_zones(self) -> list[Zone]:
-        return self.db.query(Zone).all()
+    @staticmethod
+    def delete_zone_service(db: Session, zone_id: int) -> bool:
+        return delete_zone(db, zone_id)

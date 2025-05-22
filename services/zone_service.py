@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models.zone import Zone, ZoneType  # Assuming your Zone model is in models/zone.py
+from models.zone_model import Zone, ZoneType  # Assuming your Zone model is in models/zone.py
 
 
 class ZoneService:
@@ -47,46 +47,3 @@ class ZoneService:
 
     def get_all_zones(self) -> list[Zone]:
         return self.db.query(Zone).all()
-
-
-##############################################
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from models.zone import ZoneType
-from services.zone_service import ZoneService
-
-# Setup DB session
-engine = create_engine('sqlite:///example.db')
-Session = sessionmaker(bind=engine)
-session = Session()
-
-zone_service = ZoneService(session)
-
-# Add a new zone
-zone = zone_service.add_zone(
-    floor_number=2,
-    max_occupancy=50,
-    current_occupancy=10,
-    appliance_usage_mode=True,
-    zone_type=ZoneType.moderate
-)
-
-# Update a zone
-updated_zone = zone_service.update_zone(zone.zone_id, current_occupancy=20)
-
-# Delete a zone
-zone_deleted = zone_service.delete_zone(zone.zone_id)
-
-
-
-# Get a specific zone
-zone = zone_service.get_zone_by_id(1)
-if zone:
-    print(f"Zone ID: {zone.zone_id}, Floor: {zone.floor_number}")
-else:
-    print("Zone not found.")
-
-# Get all zones
-all_zones = zone_service.get_all_zones()
-for z in all_zones:
-    print(f"Zone ID: {z.zone_id}, Floor: {z.floor_number}")

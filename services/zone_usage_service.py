@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models.zone_usage import ZoneUsage
+from models.zone_usage_model import ZoneUsage
 
 
 class ZoneUsageService:
@@ -45,36 +45,3 @@ class ZoneUsageService:
     def get_zone_usage_by_id(self, zone_emission_id: int) -> ZoneUsage | None:
         return self.db.query(ZoneUsage).filter(ZoneUsage.zone_emission_id == zone_emission_id).first()
 
-    
-
-#########################
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from services.zone_usage_service import ZoneUsageService
-import datetime
-
-engine = create_engine('sqlite:///example.db')  # Replace with your actual DB URL
-Session = sessionmaker(bind=engine)
-session = Session()
-
-zone_usage_service = ZoneUsageService(session)
-
-# Add
-usage = zone_usage_service.add_zone_usage(
-    zone_id=1,
-    date=datetime.date.today(),
-    energy_usage=100.5,
-    carbon_emission=30.2
-)
-
-# Get all
-all_usages = zone_usage_service.get_all_zone_usages()
-
-# Get one
-usage_record = zone_usage_service.get_zone_usage_by_id(usage.zone_emission_id)
-
-# Update
-updated = zone_usage_service.update_zone_usage(usage.zone_emission_id, energy_usage=120.0)
-
-# Delete
-deleted = zone_usage_service.delete_zone_usage(usage.zone_emission_id)

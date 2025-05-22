@@ -14,4 +14,4 @@ class ActionInDB(ActionBase):
     action_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True

@@ -9,4 +9,4 @@ class Action(Base):
 
     action_id = Column(Integer, primary_key=True, autoincrement=True)
     action_type = Column(String)
-    reward = Column(String)
+    reward = Column(Integer)

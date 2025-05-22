@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from datetime import date
 from typing import Optional
 
-class EmployeeUsageStatBase(BaseModel):
+class EmployeeUsageBase(BaseModel):
     employee_id: Optional[int] = None
     date: Optional[date] = None
     total_active_hours: Optional[float] = None
@@ -12,10 +12,13 @@ class EmployeeUsageStatBase(BaseModel):
     energy_usage: Optional[float] = None
     carbon_emission: Optional[float] = None
 
-class EmployeeUsageStatCreate(EmployeeUsageStatBase):
+class EmployeeUsageCreate(EmployeeUsageBase):
     pass
 
-class EmployeeUsageStatInDB(EmployeeUsageStatBase):
+class EmployeeUsageUpdate(EmployeeUsageBase):
+    pass
+
+class EmployeeUsageInDB(EmployeeUsageBase):
     emission_id: int
 
     class Config:
